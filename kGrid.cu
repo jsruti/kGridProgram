@@ -1,9 +1,8 @@
 /*
-* Compile: nvcc kGrid.cu -o kGrid.out
-* Run: ./kGrid.out
+* Compile and run: nvcc -arch=sm_20 kGrid.cu -run
 */
 #include <stdio.h>
-__global__
+/*__global__
 void kGrid(int n, int *k) {
 	int l = blockIdx.x * blockDim.x + threadIdx.x;
 	if(l < n) {
@@ -37,4 +36,13 @@ int main(void) {
 	free(k);
 
 	return 0;
+}*/
+__global__ void print_kernel() {
+    printf("Block %d, thread %d\n", blockIdx.x, threadIdx.x);
+}
+
+int main() {
+    print_kernel<<<10, 10>>>();
+    cudaDeviceSynchronize();
+    return 0;
 }
